@@ -1,0 +1,81 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lamd"
+version = "0.1.0"
+description = "Context-driven Android malware detection and classification with LLMs"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+authors = [
+    { name = "Xingzhi Qian" },
+    { name = "Xinran Zheng" },
+    { name = "Yiling He" },
+    { name = "Shuo Yang" },
+    { name = "Lorenzo Cavallaro" },
+]
+keywords = ["android", "malware", "program-analysis", "large-language-models"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+]
+dependencies = [
+    "openai>=1.30,<3",
+    "python-dotenv>=1.0,<2",
+    "tenacity>=8.2,<10",
+]
+
+[project.scripts]
+lamd = "lamd.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/s2labres/LAMD"
+Repository = "https://github.com/s2labres/LAMD"
+Paper = "https://arxiv.org/abs/2502.13055"
+Dataset = "https://doi.org/10.5281/zenodo.14884736"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lamd"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"dataset/sensitive_and_sink_apis.txt" = "lamd/data/sensitive_and_sink_apis.txt"
+"dataset/sink_api_permission_mapping.csv" = "lamd/data/sink_api_permission_mapping.csv"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/.env.example",
+    "/.gitignore",
+    "/.python-version",
+    "/LICENSE",
+    "/Makefile",
+    "/README.md",
+    "/dataset",
+    "/java-slicer",
+    "/pyproject.toml",
+    "/requirements.txt",
+    "/scripts",
+    "/src",
+]
+exclude = [
+    "/java-slicer/target",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP"]

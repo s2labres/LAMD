@@ -1,0 +1,3 @@
+# Compatibility entry point for pip users. The authoritative dependency
+# metadata and bounded versions live in pyproject.toml.
+-e .
